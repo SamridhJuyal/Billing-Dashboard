@@ -1,18 +1,21 @@
 const pool = require("../db/connection");
 
+const pool = require("../db/connection");
+
 exports.createCustomer = async (req, res) => {
   try {
     const { name, email, phone, gst_number } = req.body;
 
-    await pool.query(
+    const result = await pool.query(
       `INSERT INTO customers (name, email, phone, gst_number, gst_registered)
-        VALUES ($1, $2, $3, $4, $5)`,
+       VALUES ($1, $2, $3, $4, $5) RETURNING *`,
       [name, email, phone, gst_number, gst_number !== ""],
     );
 
     res.status(201).json(result.rows[0]);
   } catch (err) {
-    res.status(500).json({ message: "Server error" });
+    console.error(err);
+    res.status(500).json({ message: err.message });
   }
 };
 
