@@ -1,7 +1,5 @@
 const pool = require("../db/connection");
 
-const pool = require("../db/connection");
-
 exports.createCustomer = async (req, res) => {
   try {
     const { name, email, phone, gst_number } = req.body;
